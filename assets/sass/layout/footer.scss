@@ -1,0 +1,95 @@
+.copyright {
+	padding: $padding--big 0;
+	color: #FFF;
+	background: #000;
+	text-transform: uppercase;
+	font-size: $font-size-small;
+	text-align: center;
+
+	a {
+		color: $white;
+		font-weight: 900;
+	}
+	.icon {
+		vertical-align: baseline;
+	}
+}
+.footer {
+	@include background("footer-bg.jpg", 50% 50% / cover no-repeat);
+	line-height: normal;
+	color: $silver;
+	font-size: 14px;
+	padding: $padding--great 0;
+	text-align: center;
+	text-transform: uppercase;
+
+	.col-xs-12 {
+		margin-bottom: $margin--big;
+	}
+	.share-box {
+		margin-bottom: $margin--great;
+	}
+
+	a {
+		color: $silver;
+		line-height: 180%;
+
+		&:hover {
+			color: $california;
+		}
+	}
+	h3 {
+		color: $white;
+		font-size: 22px;
+		margin: 0 0 20px 0;
+	}
+	ul {
+		@extend %reset-ul;
+	}
+}
+.heureka-box {
+	.icon-heureka {
+		font-size: 40px;
+	}
+}
+.methods {
+	background-color: $cod-gray;
+	padding: 50px 0;
+	text-align: center;
+}
+.share-box {
+
+	a {
+		color: $white;
+	}
+	li {
+		display: inline-block;
+		margin-right: 20px;
+	}
+	ul {
+		@extend %reset-ul;
+	}
+	.icon {
+		display: block;
+
+		&:before {
+			margin-right: 0;
+		}
+	}
+
+}
+
+
+@include media(tablet) {
+	.footer {
+		text-align: left;
+
+		.col-xs-12 {
+			margin-bottom: 0;
+		}
+	}
+	.heureka-box .icon-heureka {
+		float: right;
+		font-size: 60px;
+	}
+}

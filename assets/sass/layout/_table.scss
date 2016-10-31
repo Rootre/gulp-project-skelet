@@ -1,0 +1,175 @@
+table {
+	border-collapse: collapse;
+	width: 100%;
+
+	td {
+		padding: 10px;
+	}
+
+	&#order-list {
+
+		&.busy {
+			opacity: .5;
+
+			td {
+				cursor: wait !important;
+			}
+		}
+
+		td {
+			transition: background-color .5s;
+		}
+		tbody tr:hover td {
+			background-color: darken($concrete, 5%);
+			cursor: pointer;
+		}
+	}
+
+	&.gray {
+		input {
+			border: 2px solid $dusty-gray;
+			min-width: 35px;
+			padding: 0;
+			text-align: center;
+		}
+		tfoot {
+			td {
+				background-color: transparent;
+			}
+			tr {
+				border-color: transparent;
+			}
+		}
+		thead th {
+			color: $dusty-gray;
+			font-size: 14px;
+			padding-bottom: 10px;
+			text-transform: uppercase;
+		}
+		td {
+			background-color: $concrete;
+		}
+
+	}
+	&.ordered-products {
+		.price,
+		tfoot {
+			text-align: right !important;
+		}
+	}
+	&.table-responsive {
+		padding: 0 $grid-gutter-width / 2;
+
+		td,
+		th,
+		tr {
+			display: block;
+			position: relative;
+			width: auto;
+		}
+
+		tfoot {
+			display: block;
+
+			td,
+			th {
+				display: table-cell;
+				text-align: right;
+			}
+			tr {
+				display: table;
+				width: 100%;
+			}
+		}
+		thead {
+			display: none;
+		}
+		tr {
+			margin-bottom: $margin--small;
+
+			[data-title] {
+				border-bottom: 1px dashed $dusty-gray;
+				text-align: right;
+
+				&:before {
+					color: $dusty-gray;
+					content: attr(data-title);
+					float: left;
+					font-size: 14px;
+					font-weight: 700;
+					margin: 0 $margin--default $margin--small 0;
+					text-transform: uppercase;
+				}
+				&:first-of-type {
+					border-top: 1px solid $dusty-gray;
+				}
+				&:last-of-type {
+					border-bottom-style: solid;
+				}
+			}
+		}
+	}
+
+
+
+	@include media(tablet) {
+
+		&.gray {
+			tr {
+				border-bottom: 10px solid $white;
+			}
+		}
+		&.table-responsive {
+			padding: 0;
+
+			td,
+			th {
+				display: table-cell;
+				//width: inherit;
+
+				&.tac {
+					text-align: center;
+				}
+				&.tar {
+					text-align: right;
+				}
+			}
+
+			tfoot {
+				display: table-footer-group;
+
+				td {
+					text-align: inherit;
+				}
+				tr {
+					display: table-row;
+				}
+			}
+			thead {
+				display: table-header-group;
+			}
+			tr {
+				display: table-row;
+				margin-bottom: 0;
+
+				[data-title] {
+					border-bottom: none;
+					font-weight: inherit;
+					padding-left: 10px;
+					text-align: inherit;
+
+					&:before {
+						display: none;
+					}
+					&.tac {
+						text-align: center;
+					}
+					&.tar {
+						text-align: right;
+					}
+				}
+			}
+		}
+
+	}
+}

@@ -1,0 +1,15 @@
+a {
+	color: $links--color;
+	outline: 0;
+	text-decoration: $links--td;
+	transition: color .3s;
+
+	&:active {
+		color: $links--color-active;
+	}
+
+	&:hover {
+		color: $links--color-hover;
+		text-decoration: $links--td-hover;
+	}
+}

@@ -1,0 +1,57 @@
+
+// insert font-face from defined directory
+@mixin font-face($font-family, $font-name, $path) {
+	@font-face {
+		font-family: $font-family;
+		src: url('#{$path}#{$font-name}.eot');
+		src: url('#{$path}#{$font-name}.eot?#iefix') format('embedded-opentype'),
+		url('#{$path}#{$font-name}.woff') format('woff'),
+		url('#{$path}#{$font-name}.ttf##{$font-family}') format('truetype');
+		font-weight: 400;
+		font-style: normal;
+		@content;
+	}
+}
+
+// include icomoon font icons
+@mixin icomoon-icons($name, $path, $icons-prefix: "icon-", $cache-param: 'chkwa1') {
+	@font-face {
+		font-family: $name;
+		src:url('#{$path}fonts/#{$name}.eot?-#{$cache-param}');
+		src:url('#{$path}fonts/#{$name}.eot?#iefix-#{$cache-param}') format('embedded-opentype'),
+		url('#{$path}fonts/#{$name}.woff?-#{$cache-param}') format('woff'),
+		url('#{$path}fonts/#{$name}.ttf?-#{$cache-param}') format('truetype'),
+		url('#{$path}fonts/#{$name}.svg?-#{$cache-param}##{$name}') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+	.icons-props {
+		font-family: $name;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+
+		/* Better Font Rendering =========== */
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+
+	}
+	[class^="#{$icons-prefix}"]:before,
+	[class*=" #{$icons-prefix}"]:before {
+		@extend .icons-props;
+	}
+	@content;
+}
+
+@mixin font-icon($name, $icons-prefix: "icon-") {
+	@extend [class^="icon-"];
+	@extend .#{$icons-prefix}#{$name}:before;
+}
+
+// place &times; (cross) into generated content
+@mixin times() {
+	content:"\00d7";
+}

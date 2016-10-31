@@ -1,0 +1,7 @@
+Footshop.{{module_name}} = {
+
+	init: function() {
+
+	}
+
+};

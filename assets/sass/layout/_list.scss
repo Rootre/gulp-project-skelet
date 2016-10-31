@@ -1,0 +1,52 @@
+ol {
+	counter-reset: section;
+	list-style: none;
+	padding-left: 0;
+
+	> li {
+		padding-left: 30px;
+		position: relative;
+
+		&:before {
+			content: counters(section,".") ". ";
+			counter-increment: section;
+			position: absolute;
+			left: 0;
+		}
+	}
+}
+ul {
+	&.inline-list {
+		@extend %reset-ul;
+
+		li {
+			display: inline-block;
+		}
+	}
+	&.slash-list {
+		@extend %reset-ul;
+
+		li {
+			display: inline-block;
+
+			& + li:before {
+				content: '/';
+				display: inline-block;
+				margin: 0 5px;
+			}
+		}
+	}
+	&.pipe-list {
+		@extend %reset-ul;
+		margin: $margin--big 0;
+
+		li {
+			padding: 0 12px;
+			display: inline-block;
+
+			& + li {
+				border-left: 1px solid $base-color;
+			}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+
+// set media query variables
+@include media-queries(true);
+
+// set font face
+@include font-face($font-agora, 'pf_agora_sans_pro_black-webfont', $fonts-url) {
+	font-weight: 900;
+};
+@include font-face($font-agora, 'pf_agora_sans_pro_bold-webfont', $fonts-url) {
+	font-weight: 700;
+};
+@include font-face($font-agora, 'pf_agora_sans_pro_regular-webfont', $fonts-url);
+
+@include font-face($font-agora-slab, 'pf_agora_slab_pro_black-webfont', $fonts-url) {
+	font-weight: 900;
+};
+@include font-face($font-agora-slab, 'pf_agora_slab_pro_bold-webfont', $fonts-url) {
+	font-weight: 700;
+};
+@include font-face($font-agora-slab, 'pf_agora_slab_pro_regular-webfont', $fonts-url);
+
+
+//$icomoon-font-path: "#{$icons-url}fonts" !default;
+//@import "../../icons/style.scss";	// assets/icons/ _unpacked_icomoon_files_

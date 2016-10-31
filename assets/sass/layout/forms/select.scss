@@ -1,0 +1,46 @@
+.select {
+	.selector {
+		margin-right: 5px;
+	}
+	label {
+		margin: 0 5px 0 0;
+	}
+}
+.selector {
+	background: $forms--bg;
+	box-sizing: content-box;
+	display: inline-block;
+	font-size: $forms--fs;
+	height: $forms--h;
+	overflow: hidden;
+	position: relative;
+	vertical-align: middle;
+	width: auto !important;
+
+	&, > * {
+		cursor: pointer;
+	}
+
+	select {
+		@include dim(100%, $forms--h);
+		opacity: 0;
+		position: relative;
+		top: -$forms--h;
+	}
+	span {
+		display: block;
+		line-height: $forms--h;
+		height: $forms--h;
+		padding: $forms--p;
+		padding-right: 30px;
+		position: relative;
+		width: 100% !important;
+
+		&:before {
+			@include absolute(0, $right: 0);
+			content: '\25bc';
+			line-height: $forms--h;
+		}
+	}
+
+}

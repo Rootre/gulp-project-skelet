@@ -1,0 +1,12 @@
+.wrapper {
+	@include clearfix;
+	clear: both;
+	display: block;
+	margin: 0 auto;
+	max-width: $wrapper--width;
+
+	&--bigger {
+		@extend .wrapper;
+		max-width: $wrapper--width + 370;
+	}
+}

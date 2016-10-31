@@ -1,0 +1,75 @@
+@mixin absolute($top: auto, $left: auto, $bottom: auto, $right: auto) {
+	position: absolute;
+	top: $top;
+	left: $left;
+	bottom: $bottom;
+	right: $right;
+}
+
+@mixin clearfix() {
+	&:after {
+		clear: both;
+		content: "";
+		display: table;
+	}
+}
+
+@mixin dim($width: auto, $height: auto) {
+	height: $height;
+	width: $width;
+}
+
+// no underlines for a:before|a:after (just for IE, other browsers are normal)
+@mixin no-pseudo-underline() {
+	&:after,
+	&:before {
+		display: inline-block;
+		text-decoration: underline;
+	}
+	&:after,
+	&:before {
+		text-decoration: none;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+@mixin opacity($opacity) {
+	$ieOpacity: $opacity * 100;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$ieOpacity})";
+	filter: alpha(opacity=$ieOpacity);
+	opacity: $opacity;
+}
+
+@mixin square($size) {
+	@include dim($size, $size);
+}
+
+@mixin table($margin-bottom: $margin--default) {
+	display: table;
+	margin: 0 0 $margin-bottom;
+	padding: 0;
+	table-layout: fixed;
+	width: 100%;
+
+	& > * {
+		display: table-cell;
+		width: 1px;	//makes columns even in width
+	}
+}
+
+// truncate text with '...' postfix
+@mixin text-truncate() {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// graphics acceleration of css properties
+@mixin graphic-acceleration($will-change: '') {
+	transform: translate3d(0, 0, 0);
+	@if($will-change != '') {
+		will-change: #{$will-change};
+	}
+}

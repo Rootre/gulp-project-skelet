@@ -1,0 +1,18 @@
+html,
+body {
+	//height: 100%;
+	min-height: 100%;
+}
+
+body {
+	background-color: $bg-color;
+	font-family: $font-family, Arial, sans-serif;
+	color: $base-color;
+	font-size: $font-size;
+	line-height: 1.4;
+	margin: 0;
+}
+
+* {
+	box-sizing: border-box;
+}

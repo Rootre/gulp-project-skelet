@@ -1,0 +1,133 @@
+.form-group,
+.input-group {
+	clear: both;
+	margin-bottom: 10px;
+}
+
+.error {
+	color: $red;
+	display: block;
+	font-weight: bold;
+}
+.form-group {
+	& > label {
+		color: $base-color;
+		display: block;
+		font-size: 12px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+	textarea {
+		width: 100%;
+	}
+}
+.input-group {
+	$height: 32px;
+	$label-width: 90px;
+
+	input,
+	label,
+	select {
+		font-size: 12px;
+		height: $height;
+		line-height: $height;
+		width: 100%;
+	}
+
+	label {
+		color: $base-color;
+		display: block;
+		font-weight: 700;
+		text-align: right;
+		text-transform: uppercase;
+
+		sup {
+			line-height: 1;
+		}
+	}
+
+	@include media(tablet) {
+		display: table;
+		width: 100%;
+
+		[class^='col-'],
+		[class*=' col-'] {
+			padding: 0;
+
+			input,
+			.selector {
+				border-radius: 0;
+			}
+
+			&:last-of-type {
+				input,
+				.selector {
+					border-radius: 0 4px 4px 0;
+				}
+			}
+		}
+
+		.form_info {
+			$margin: 5px;
+
+			float: right;
+			font-size: 14px;
+			margin: $margin;
+			position: absolute;
+			transform: translateX(calc(-100% - 2 * #{$margin}));
+		}
+
+		input,
+		label,
+		select {
+			display: table-cell;
+			vertical-align: middle;
+		}
+
+		input,
+		.selector {
+			border-radius: 0 4px 4px 0;
+			float: left;
+			width: 100% !important;
+		}
+		label {
+			background-color: $mercury;
+			border: none;
+			border-radius: 4px 0 0 4px;
+			padding: 0 10px;
+			white-space: nowrap;
+			width: $label-width;
+		}
+	}
+}
+
+button,
+input,
+select,
+textarea {
+	background: $forms--bg;
+	border: $forms--b;
+	color: $forms--c;
+	font-family: $forms--ff;
+	font-size: $forms--fs;
+	font-weight: $forms--fw;
+	height: $forms--h;
+	outline: none;
+	padding: $forms--p;
+}
+
+button {
+	cursor: pointer;
+}
+form {
+	&#new_account_form .input-group label {
+		text-align: right;
+		width: 160px;
+	}
+}
+input {
+	&[disabled] {
+		color: #d0d0d0;
+		cursor: default;
+	}
+}

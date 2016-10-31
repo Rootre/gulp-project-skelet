@@ -1,0 +1,30 @@
+@mixin absolute-center() {
+	position: absolute;
+	left: 50%;
+	//margin-left: -($width / 2);
+	transform: translateX(-50%);
+}
+
+@mixin absolute-middle() {
+	position: absolute;
+	top: 50%;
+	//margin-top: -($height / 2);
+	transform: translateY(-50%);
+}
+
+@mixin child-middle() {
+	white-space: nowrap;
+
+	&:before {
+		content: '';
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+	& > * {
+		display: inline-block;
+		max-width: 100%;
+		vertical-align: middle;
+		white-space: normal;
+	}
+}
