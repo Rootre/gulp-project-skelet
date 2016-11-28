@@ -72,7 +72,7 @@ gulp.task('sprites', function() {
 	var spriteData = gulp.src(paths.imagesAssets + "sprites/*.png").pipe(spritesmith({
 		imgName: 'sprite.png',
 		cssName: '_sprite.scss',
-		imgPath: '../images/sprite.png'
+		imgPath: '../images/sprite.png' + (new Date().getTime())
 	}));
 
 	spriteData.img.pipe(gulp.dest(paths.imagesDist)); // output path for the sprite
