@@ -181,6 +181,9 @@
 .tar {
 	text-align: right;
 }
+.ttl {
+	text-transform: lowercase;
+}
 .ttn {
 	text-transform: none;
 }
@@ -189,6 +192,9 @@
 }
 .vam {
 	vertical-align: middle;
+}
+.vat {
+	vertical-align: top;
 }
 .wsnw {
 	white-space: nowrap;
@@ -218,6 +224,9 @@
 .hidden {
 	visibility: hidden;
 }
+.relative {
+	position: relative;
+}
 .shrinked-50 {
 	width: 50%;
 }
@@ -240,4 +249,31 @@
 	@include absolute(-9999px, -9999px);
 	@include square(0);
 	visibility: hidden;
+}
+.till-tablet {
+	@include media(tablet) {
+		display: none;
+	}
+}
+.till-phablet {
+	@include media(phablet) {
+		display: none;
+	}
+}
+.till-desktop {
+	@include media(desktop) {
+		display: none;
+	}
+}
+.till-desktop-lg {
+	@include media(desktop-lg) {
+		display: none;
+	}
+}
+.since-tablet {
+	display: none;
+
+	@include media(tablet) {
+		display: block;
+	}
 }
