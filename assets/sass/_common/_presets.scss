@@ -1,12 +1,12 @@
 .bbb {
-	border-bottom: 2px solid $mercury;
+	border-bottom: 2px solid color(mercury);
 }
 .btb {
-	border-top: 2px solid $mercury;
+	border-top: 2px solid color(mercury);
 
 	&--white {
 		@extend .btb;
-		border-top-color: $white;
+		border-top-color: color(white);
 	}
 }
 .db {
@@ -63,6 +63,9 @@
 .ml {
 	margin-left: $margin--default;
 }
+.mla {
+	margin-left: auto;
+}
 .mlb {
 	margin-left: $margin--big;
 }
@@ -77,6 +80,9 @@
 }
 .mr {
 	margin-right: $margin--default;
+}
+.mra {
+	margin-right: auto;
 }
 .mrb {
 	margin-right: $margin--big;
@@ -199,6 +205,9 @@
 .wsnw {
 	white-space: nowrap;
 }
+.wa {
+	width: auto;
+}
 
 
 
@@ -213,6 +222,9 @@
 }
 .block-right {
 	float: right;
+}
+.full-height {
+	height: 100%;
 }
 .full-width {
 	width: 100%;
