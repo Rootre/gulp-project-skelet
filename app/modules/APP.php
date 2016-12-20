@@ -11,16 +11,25 @@ class APP
 	function __construct()
 	{
 		$this->page = isset($_GET['page']) ? $_GET['page'] : 'homepage';
-		if (isset($_GET['lang']) && in_array($_GET['lang'], $this->get("langs"))) {
-			$this->language = $_GET['lang'];
-		}
-		else {
-			$this->language = 'cs';
+
+		if (!isset($_SESSION['lang'])) {
+			self::setLang('cs');
 		}
 
-		$this->texts = new XMLReader();
-		$this->texts->open(ROOT_URL . "texts.xml");
-		$this->texts->read();
+		if (isset($_GET['lang']) && in_array($_GET['lang'], $this->get("langs"))) {
+			self::setLang($_GET['lang']);
+		}
+
+		$xml_texts = file_get_contents(ROOT_URL . "texts.xml");
+		$this->texts = simplexml_load_string($xml_texts);
+	}
+
+	private function setLang($lang) {
+		$_SESSION['lang'] = $lang;
+	}
+
+	public static function getLang() {
+		return $_SESSION['lang'];
 	}
 
 	/**
@@ -48,28 +57,20 @@ class APP
 
 	public static function getText($category, $name)
 	{
-		$doc = new DOMDocument;
+		$self = self::getInstance();
+		$lang = self::getLang();
 
-		while (self::getInstance()->texts->name === 'category')
-		{
-			if (self::getInstance()->texts->getAttribute('name') === $category)
-			{
-				//$node = new SimpleXMLElement($z->readOuterXML());
-				$node = simplexml_import_dom($doc->importNode(self::getInstance()->texts->expand(), true));
-				foreach ($node->children() as $key => $val)
-				{
-					if ($key === $name)
-					{
-						$lang = self::getInstance()->language;
-						$value = $val->$lang->child->asXML();
-						return $value ? $value : $val->cs->__toString();
+		foreach ($self->texts->category as $parsed_category) {
+			if ($parsed_category->attributes()['name'] == $category) {
+				foreach ($parsed_category as $text) {
+					if ($text->getName() == $name) {
+						$value = !!$text->$lang ? $text->$lang : $text->cs;
+						//finally strip <lang> markers from asXML function
+						return preg_replace("/^<\w+>(.+)<\/\w+>$/i", '$1', $value->asXML());
 					}
 				}
 			}
-
-			self::getInstance()->texts->next('category');
 		}
-
 		return false;
 	}
 
