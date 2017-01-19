@@ -12,7 +12,10 @@
 	transform: translateY(-50%);
 }
 
-@mixin child-middle() {
+@mixin child-middle($pixel-perfect: false) {
+	@if($pixel-perfect == true) {
+		font-size: 0;
+	}
 	white-space: nowrap;
 
 	&:before {
@@ -22,6 +25,9 @@
 		vertical-align: middle;
 	}
 	& > * {
+		@if($pixel-perfect == true) {
+			font-size: $font-size;
+		}
 		display: inline-block;
 		max-width: 100%;
 		vertical-align: middle;
