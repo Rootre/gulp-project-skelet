@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 
-var baseDir = "themes/default-bootstrap/",
+var baseDir = "",
 	siteUrl = "footshop.tt";
 
 var paths = {

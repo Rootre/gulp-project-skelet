@@ -10,6 +10,9 @@
 @import "_variables/_links";
 @import "_variables/_forms";
 
+// placeholders
+@import "_placeholders/_basic";
+
 // mixins
 @import "_mixins/_backgrounds";
 @import "_mixins/_basic";
@@ -54,7 +57,7 @@
 @import "pages/homepage";
 
 // reusable components
-//@import "components/visitus";
+@import "components/hamburger";
 //#generated-components
 
 
@@ -62,4 +65,3 @@
 @import "_common/globals";
 @import "_common/_colors";
 @import "_common/_presets";
-@import "_common/_placeholders";
