@@ -1,4 +1,4 @@
-ul.inline-list, ul.slash-list, ul.pipe-list, .footer ul, .share-box ul, .header .user-menu, #homepage ul {
+ul.inline-list, ul.slash-list, ul.pipe-list, .footer ul, .share-box ul, .header .user-menu {
   list-style: none;
   padding-left: 0;
   margin: 0; }
@@ -827,9 +827,6 @@ strong {
     display: table; }
   .wrapper--bigger {
     max-width: 1320px; }
-
-#homepage ul {
-  text-align: center; }
 
 .active .hamburger:after, .active .hamburger:before {
   opacity: 0; }
