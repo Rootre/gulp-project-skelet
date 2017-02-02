@@ -1,8 +1,11 @@
-<category name="header">
-    <title>
-        <cs>Page title</cs>
-    </title>
-    <heading>
-        <cs>Nadpis stránky</cs>
-    </heading>
-</category>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<texts>
+    <category name="header">
+        <title>
+            <cs>Page title</cs>
+        </title>
+        <heading>
+            <cs>Nadpis stránky</cs>
+        </heading>
+    </category>
+</texts>
