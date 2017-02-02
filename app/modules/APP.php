@@ -32,6 +32,18 @@ class APP
 		return $_SESSION['lang'];
 	}
 
+	public static function getLangs() {
+		$langs = array();
+		foreach (self::$VARS['langs'] as $lang) {
+			array_push($langs, array(
+				'url' => '?lang=' . $lang,
+				'code' => $lang,
+			));
+		}
+
+		return $langs;
+	}
+
 	/**
 	 * Returns the *Singleton* instance of this class.
 	 *
