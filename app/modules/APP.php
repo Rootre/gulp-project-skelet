@@ -34,10 +34,13 @@ class APP
 
 	public static function getLangs() {
 		$langs = array();
+		$actual_lang = self::getLang();
+
 		foreach (self::$VARS['langs'] as $lang) {
 			array_push($langs, array(
 				'url' => '?lang=' . $lang,
 				'code' => $lang,
+				'active' => $actual_lang === $lang ? true : false
 			));
 		}
 
