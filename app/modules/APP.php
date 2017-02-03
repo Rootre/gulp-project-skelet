@@ -81,7 +81,7 @@ class APP
 					if ($text->getName() == $name) {
 						$value = !!$text->$lang ? $text->$lang : $text->cs;
 						//finally strip <lang> markers from asXML function
-						return preg_replace("/^<\w+>(.+)<\/\w+>$/i", '$1', $value->asXML());
+						return preg_replace("/^<[a-z]+>(.+)<\/[a-z]+>$/is", '$1', $value->asXML());
 					}
 				}
 			}
