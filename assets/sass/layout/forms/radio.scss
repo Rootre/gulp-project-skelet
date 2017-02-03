@@ -1,10 +1,8 @@
-input[type=radio] {
-	height: auto;
-}
+// assumes .radio > input + label
 .radio {
-	$border-color: #333;
 	$border-width: 1px;
-	$circle-indent: 3px;
+	$boder-color: $gray;
+	$active-background: $red;
 	$label-padding-left: 25px;
 	$size: 18px;
 	$top: 3px;
@@ -12,44 +10,31 @@ input[type=radio] {
 
 	display: inline-block;
 	position: relative;
-	vertical-align: top;
+	vertical-align: middle;
 
-	& + label {
-		cursor: pointer;
-		padding-left: $label-padding-left;
-		position: relative;
-
-		a {
-			color: $base-color;
-		}
-	}
 	input {
-		@include square(100%);
-		cursor: pointer;
-		margin: 0;
-		opacity: 0;
+		height: auto;
 		position: absolute;
-	}
-	span {
-		@include absolute($top, $left);
-		@include square($size);
-		background-color: $white;
-		border-radius: 50%;
-		display: block;
-		border: $border-width solid $border-color;
+		visibility: hidden;
 
-		&:before {
-			background-color: $border-color;
-			border-radius: 50%;
-			content: '';
-			opacity: 0;
-			position: absolute $circle-indent;
-			transform: scale(0);
-			transition: .3s;
+		&:checked + label {
+
+			&:before {
+				background-color: $active-background;
+			}
 		}
-		&.checked:before {
-			transform: scale(1);
-			opacity: 1;
+
+		& + label {
+			cursor: pointer;
+			padding-left: $label-padding-left;
+
+			&:before {
+				@include square($size);
+				border: $border-width solid $boder-color;
+				border-radius: 50%;
+				content: '';
+				position: absolute $top auto auto $left;
+			}
 		}
 	}
 }
