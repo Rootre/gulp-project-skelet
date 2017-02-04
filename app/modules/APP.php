@@ -3,7 +3,7 @@
 class APP
 {
 	private static $VARS = array(
-		"langs" => array("cs", "en")
+		"langs" => array('cs' => 'cz', 'en' => 'en')
 	);
 
 	private static $instance;
@@ -16,11 +16,11 @@ class APP
 			self::setLang('cs');
 		}
 
-		if (isset($_GET['lang']) && in_array($_GET['lang'], $this->get("langs"))) {
+		if (isset($_GET['lang']) && in_array($_GET['lang'], array_keys($this->get("langs")))) {
 			self::setLang($_GET['lang']);
 		}
 
-		$xml_texts = file_get_contents(ROOT_URL . "texts.xml");
+		$xml_texts = file_get_contents(APP_URL . "texts.xml");
 		$this->texts = simplexml_load_string($xml_texts);
 	}
 
@@ -35,15 +35,15 @@ class APP
 	public static function getLangs() {
 		$langs = array();
 		$actual_lang = self::getLang();
-
-		foreach (self::$VARS['langs'] as $lang) {
+		
+		foreach (self::$VARS['langs'] as $code => $lang) {
 			array_push($langs, array(
-				'url' => '?lang=' . $lang,
+				'url' => '?lang=' . $code,
 				'code' => $lang,
-				'active' => $actual_lang === $lang ? true : false
+				'active' => $actual_lang === $code ? true : false
 			));
 		}
-
+		
 		return $langs;
 	}
 
@@ -95,6 +95,7 @@ class APP
 		$this->getBit("_head");
 		$this->getBit("header");
 		$this->getPage($this->page);
+		$this->getBit("footer");
 		$this->getBit("_end");
 	}
 
