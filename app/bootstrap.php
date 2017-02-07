@@ -11,13 +11,14 @@ function __autoload($className){
 	}
 }
 
-define("ROOT_URL", $_SERVER["DOCUMENT_ROOT"] . "/app/");
+define("ROOT_URL", $_SERVER["DOCUMENT_ROOT"] . "/");
+define("APP_URL", ROOT_URL . "app/");
 define("APACHE_ROOT_URL", "/");
 
-define("BITS_URL", ROOT_URL . "bits/");
-define("MODULES_URL", ROOT_URL . "modules/");
-define("LOGS_URL", ROOT_URL . "logs/");
-define("PAGES_URL", ROOT_URL . "pages/");
+define("BITS_URL", APP_URL . "bits/");
+define("MODULES_URL", APP_URL . "modules/");
+define("LOGS_URL", APP_URL . "logs/");
+define("PAGES_URL", APP_URL . "pages/");
 
 define("IMAGES_URL", APACHE_ROOT_URL . "dist/images/");
 define("CSS_URL", APACHE_ROOT_URL . "dist/css/");
