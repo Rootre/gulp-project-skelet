@@ -1,7 +1,7 @@
 const paths = {
 	sass: 'assets/sass/',
 	components: 'assets/sass/components/',
-	modules: 'assets/js/footshop/',
+	modules: 'assets/js/',
 	pages: 'assets/sass/pages/',
 }
 
@@ -68,13 +68,13 @@ module.exports = function (plop) {
 		}],
 		actions: [{
 			type: 'add',
-			path: `${paths.modules}/{{module_name}}.js`,
+			path: `${paths.modules}/modules/{{module_name}}.js`,
 			templateFile: 'plop-templates/js_module.txt',
 		},{
 			type: 'modify',
-			path: `${paths.modules}/Footshop.js`,
-			pattern: /(\/\*dynamic-modules\*\/)/gi,
-			template: `$1\n\t\tthis.{{module_name}}.init();`
+			path: `${paths.modules}/site.js`,
+			pattern: /(\/\* generated-modules \*\/)/gi,
+			template: `$1\n{{module_name}}.init();`
 		}]
 	});
 

@@ -24,7 +24,7 @@ class APP
 		$this->texts = simplexml_load_string($xml_texts);
 	}
 
-	private function setLang($lang) {
+	public static function setLang($lang) {
 		$_SESSION['lang'] = $lang;
 	}
 

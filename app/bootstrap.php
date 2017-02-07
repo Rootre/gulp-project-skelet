@@ -25,4 +25,8 @@ define("JS_URL", APACHE_ROOT_URL . "dist/js/");
 
 //define("MAILING_FROM", "Tejsty test");
 
+if (file_exists(APP_URL . 'env.php')) {
+	require_once 'env.php';
+}
+
 ?>
