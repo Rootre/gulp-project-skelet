@@ -1,6 +1,6 @@
-Openers = {
+Footshop.Openers = {
 
-	selector: '.opener',
+	selector: '.fs-opener',
 	openClass: 'open',
 	openFunction: 'fade',	// [slide, fade]
 
@@ -12,7 +12,7 @@ Openers = {
 		$(this.selector).each(function () { self._addOpener($(this)) });
 
 		// $(document).on('click', this._bodyClick.bind(this));
-		$(document).on('click.openers, touch.openers', function(e) { self._bodyClick(e) });
+		$(document).on('click.openers, touchend.openers', function(e) { self._bodyClick(e) });
 	},
 	_addOpener: function ($node) {
 		var targetsQuery = $node.data('target') ? $node.data('target') : $node[0].hash,
@@ -43,7 +43,7 @@ Openers = {
 			this.openers.push(opener);
 
 			// $node.on('click', this._openerClick.bind(this));
-			$node.on('click.opener', function(e){ self._openerClick(e, opener) });
+			$node.on('click.opener, touchend.opener', function(e){ self._openerClick(e, opener) });
 
 			//close if opener not opened by default
 			if (!opened) {
@@ -109,9 +109,9 @@ Openers = {
 	},
 	_destroyOpeners: function() {
 		this.openers.forEach(function(opener) {
-			opener.$node.off('click.opener');
+			opener.$node.off('click.opener, touchend.opener');
 		});
-		$(document).off('click.openers, touch.openers');
+		$(document).off('click.openers, touchend.openers');
 	},
 	_notifyOpenersOfStateChange: function(changedOpener) {
 		this.openers.forEach(function (opener) {
