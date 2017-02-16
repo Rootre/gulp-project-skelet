@@ -23,13 +23,12 @@ Openers = {
 		closeOnClick: true,
 		closeOnBlur: true,
 	},
+	openers: [],
 	/**
 	 * Initialize openers
 	 * @param config
 	 */
 	init: function(config) {
-		this.openers = [];
-
 		var self = this;
 
 		this._closeHandling();
@@ -42,7 +41,7 @@ Openers = {
 	 * @param config - custom config object
 	 */
 	addOpener: function ($node, config) {
-		var targetsQuery = $node.data('target') ? $node.data('target') : $node[0].hash,
+		var targetsQuery = config && config.target ? config.target : ($node.data('target') ? $node.data('target') : $node[0].hash),
 			$targets = $(targetsQuery);
 
 		if ($targets.length) {
