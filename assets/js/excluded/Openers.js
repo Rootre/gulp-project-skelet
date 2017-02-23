@@ -31,6 +31,8 @@ Openers = {
 	init: function(config) {
 		var self = this;
 
+		//reset content of openers in case of calling recover()
+		this.openers = [];
 		this._closeHandling();
 
 		$(this.selector).each(function () { self.addOpener($(this), config) });
