@@ -31,7 +31,6 @@ Openers = {
 	init: function(config) {
 		var self = this;
 
-		//reset content of openers in case of calling recover()
 		this.openers = [];
 		this._closeHandling();
 
@@ -79,7 +78,7 @@ Openers = {
 				this._changeState(false, opener, true);
 			}
 			else {
-				this._changeState(true, opener);
+				this._changeState(true, opener, true);
 			}
 
 		}
@@ -156,7 +155,7 @@ Openers = {
 		var output = {};
 		Object.keys(config).forEach(function(key) {
 			var data = $node.data(convertCamelToDash(key));
-			if (data) {
+			if (typeof data != 'undefined') {
 				output[key] = data;
 			}
 		});
