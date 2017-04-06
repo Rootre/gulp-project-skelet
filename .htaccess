@@ -1,0 +1,24 @@
+# pre spustenie do ostreho nasadenia nasledujuce 4 riadky vymazat alebo zakomentova znakom "mriezka"
+# AuthType Basic
+# AuthName "Yeezy"
+# AuthUserFile /home/web/footshop.cz/yeezy/.htpasswd
+# Require valid-user
+# koniec zakomentovavania riadkov
+
+# nasledujuce riadky ponechat
+RewriteEngine on
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+#
+#RewriteCond %{REQUEST_URI} !^/$
+#RewriteCond %{REQUEST_URI} !\.(gif|jpe?g|png|css|js|woff|woff2|ico)$
+#
+#RewriteCond %{QUERY_STRING} ^lang=(cs|en)
+#RewriteRule (.*) /%1/? [L,R]
+
+#RewriteRule ^(cs|en)$ /$1/ [L,R]
+#RewriteRule ^(cs|en) index.php?lang=$1 [QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (cs|en) index.php?lang=$1
