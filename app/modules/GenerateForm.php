@@ -12,28 +12,21 @@ class GenerateForm {
 	 * @param array $errors - array('name' => 'error text', 'name2' => '') in this scenario, element name has error, name2 is OK, all others are undefined (no success/error)
 	 * @return string
 	 */
-	public static function generate($form, $errors = array()) {
+	public static function generate($form, $errors = []) {
 
-		$output = array();
+		$output = [];
+
 		foreach ($form as $name => $element) {
-			$validation_class = isset($errors[$name]) ? ($errors[$name] ? 'error' : 'success') : '';
-			array_push($output, "<div class='form-group $validation_class'>");
-
-			switch ($element['type']) {
-				case 'checkbox': array_push($output, self::generateCheckbox($element)); break;
-				case 'radio': array_push($output, self::generateRadio($element)); break;
-				case 'submit': array_push($output, self::generateSubmit($element)); break;
-				default: array_push($output, self::generateElement($element));
+			if ($name == '_CONTAINER_') {
+				array_push($output, "<div class='container'><p class='label'>{$element['label']}</p>");
+				foreach ($element['children'] as $name => $element) {
+					array_push($output, self::generateGroup($name, $element, $errors));
+				}
+				array_push($output, "</div>");
 			}
-
-			if ($validation_class == 'error') {
-				array_push($output, "<small class='error'>{$errors[$name]}</small>");
+			else {
+				array_push($output, self::generateGroup($name, $element, $errors));
 			}
-			if (isset($element['info'])) {
-				array_push($output, "<small>{$element['info']}</small>");
-			}
-
-			array_push($output, "</div>");
 		}
 
 		return implode("", $output);
@@ -47,6 +40,47 @@ class GenerateForm {
 	public static function generateCheckbox($checkbox)
 	{
 		return "<div class='checkbox'>{$checkbox['element']} {$checkbox['label']}</div>";
+	}
+
+	/**
+	 * Generates group of label with element
+	 * @param $name
+	 * @param $element
+	 * @return array
+	 */
+	public static function generateGroup($name, $element, $errors = []) {
+		$output = [];
+		$validation_class = isset($errors[$name]) ? ($errors[$name] ? 'error' : 'success') : '';
+		array_push($output, "<div class='form-group $validation_class'>");
+
+		switch ($element['type']) {
+			case 'checkbox': array_push($output, self::generateCheckbox($element)); break;
+			case 'radio': array_push($output, self::generateRadio($element)); break;
+			case 'submit': array_push($output, self::generateSubmit($element)); break;
+			default: array_push($output, self::generateElement($element, $name));
+		}
+
+		if ($validation_class == 'error') {
+			array_push($output, "<small class='error'>{$errors[$name]}</small>");
+		}
+		if (isset($element['info'])) {
+			array_push($output, "<small>{$element['info']}</small>");
+		}
+
+		array_push($output, "</div>");
+
+		return implode("", $output);
+	}
+
+	/**
+	 * Generate standard form element
+	 * @param $element
+	 * @param $name
+	 * @return string
+	 */
+	public static function generateElement($element, $name)
+	{
+		return "<label class='label' for='{$name}'>{$element['label']}</label>{$element['element']}";
 	}
 
 	/**
@@ -75,13 +109,13 @@ class GenerateForm {
 	}
 
 	/**
-	 * Generate standard form element
-	 * @param $element
+	 * Gets value in current language, if its not set, takes the first value
+	 * @param array $text - array('lang' => 'value', 'lang2' => 'value')
 	 * @return string
 	 */
-	public static function generateElement($element)
+	private function _getLangValue($text)
 	{
-		return "<span class='label'>{$element['label']}</span>{$element['element']}";
+		return isset($text[$this->lang]) ? $text[$this->lang] : array_values($text)[0];
 	}
 
 }

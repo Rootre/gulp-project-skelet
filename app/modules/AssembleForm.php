@@ -10,6 +10,9 @@
  * 			'type' => 'text',
  * 			'label' => array('cs' => 'Ověřovací kód', 'en' => 'Verification code'),
  * 			'info' => array('cs' => 'xxxxx-xxxx', 'en' => 'xxxx-xxxx'),
+ * 			'attributes' => [
+ *				'data-validate' => 'presence'
+ *			]
  * 		),
  * 		'country' => array(
  * 			'type' => 'select',
@@ -22,6 +25,19 @@
  * 				),
  *			),
  * 		),
+ * 		'_CONTAINER_' => [
+ *			'label' => ['cs' => 'Kontejner', 'en' => 'Container'],
+ * 			'children' => [
+ * 				'question1' => [
+ * 					'type' => 'text',
+ * 					'label' => array('cs' => 'Otázka 1', 'en' => 'Question 1'),
+ * 				],
+ * 				'question2' => [
+ * 					'type' => 'text',
+ * 					'label' => array('cs' => 'Otázka 2', 'en' => 'Question 2'),
+ * 				],
+ * 			],
+ *		],
  * 		'send' => array(
  * 			'type' => 'submit',
  * 			'label' => array('cs' => 'Odeslat formulář', 'en' => 'Send form')
@@ -32,15 +48,30 @@
  * array(
  * 		'code' => array(
  * 			'label' => 'Ověřovací kód',
- * 			'element' => '<input type="text" name="code" value="" />'
+ * 			'element' => '<input type="text" name="code" id="code" value="" data-validate="presence" />'
  * 			'type' => 'text',
  * 			'info' => 'xxxxx-xxxx',
  * 		),
  * 		'country' => array(
  * 			'label' => 'Země',
- * 			'element' => '<select name="country"><option>Vyberte</option><option value="cr">Česká republika</option></select>'
+ * 			'element' => '<select name="country" id="country"><option>Vyberte</option><option value="cr">Česká republika</option></select>'
  * 			'type' => 'select',
  * 		),
+ * 		'_CONTAINER_' => [
+ *			'label' => 'Kontejner',
+ * 			'children' => [
+ * 				'question1' => [
+ * 					'type' => 'text',
+ * 					'element' => '<input type="text" name="question1" id="question1" value="" />',
+ * 					'label' => 'Otázka 1',
+ * 				],
+ * 				'question2' => [
+ * 					'type' => 'text',
+ * 					'element' => '<input type="text" name="question2" id="question2" value="" />',
+ * 					'label' => 'Otázka 2',
+ * 				],
+ * 			],
+ *		],
  * 		'send' => array(
  * 			'element' => '<button type="submit" name="send">Odeslat formulář</button>',
  * 			'type' => 'submit',
@@ -50,30 +81,10 @@
  */
 class AssembleForm {
 
-	public function __construct($lang, $form_values = array())
+	public function __construct($lang, $form_values = [])
 	{
 		$this->lang = $lang;
 		$this->form_values = $form_values;
-	}
-
-	/**
-	 * Returns element's value sent by form, otherwise empty string
-	 * @param string $name - form element name
-	 * @return string
-	 */
-	private function _getFormValue($name)
-	{
-		return isset($this->form_values[$name]) ? $this->form_values[$name] : '';
-	}
-
-	/**
-	 * Gets value in current language, if its not set, takes the first value
-	 * @param array $text - array('lang' => 'value', 'lang2' => 'value')
-	 * @return string
-	 */
-	private function _getLangValue($text)
-	{
-		return isset($text[$this->lang]) ? $text[$this->lang] : array_values($text)[0];
 	}
 
 	/**
@@ -83,10 +94,21 @@ class AssembleForm {
 	 */
 	public function assembleForm($form)
 	{
-		$output = array();
+		$output = [];
 
 		foreach ($form as $name => $element) {
-			$output[$name] = $this->assembleElement($name, $element);
+			if ($name == '_CONTAINER_') {
+				$output[$name]['children'] = [];
+				if (isset($element['label'])) {
+					$output[$name]['label'] = $this->_getLangValue($element['label']);
+				}
+				foreach ($element['children'] as $child_name => $child_element) {
+					array_push($output[$name]['children'], $this->assembleElement($child_name, $child_element));
+				}
+			}
+			else {
+				$output[$name] = $this->assembleElement($name, $element);
+			}
 		}
 
 		return $output;
@@ -136,12 +158,19 @@ class AssembleForm {
 			array_push($options, "<option>{$select['placeholder'][$lang]}</option>");
 		}
 		foreach ($select['options'] as $value => $text) {
-			array_push($options, "<option value='$value'" . ($form_value == $value ? " selected='selected'" : '') . ">" . $this->_getLangValue($text) . "</option>");
+			$selected = false;
+			if (isset($select['selected']) && $value == $this->_getLangValue($select['selected'])) {
+				$selected = true;
+			}
+			elseif ($form_value == $value) {
+				$selected = true;
+			}
+			array_push($options, "<option value='$value'" . ($selected ? " selected='selected'" : '') . " " . $this->_assembleAttributes($text) . ">" . $this->_getLangValue($text) . "</option>");
 		}
 
 		return array(
 			'label' => $label,
-			'element' => "<select name='$name'>" . implode("", $options) . "</select>"
+			'element' => "<select name='$name' id='$name' " . $this->_assembleAttributes($select) . ">" . implode("", $options) . "</select>"
 		);
 	}
 
@@ -159,7 +188,7 @@ class AssembleForm {
 		$options = array();
 		foreach ($radio['options'] as $value => $text) {
 			array_push($options, array(
-				'input' => "<input type='radio' name='$name' id='radio_{$name}_{$value}' value='$value'" . ($form_value == $value ? " checked='checked'" : '') . " />",
+				'input' => "<input type='radio' name='$name' id='radio_{$name}_{$value}' value='$value'" . ($form_value == $value ? " checked='checked'" : '') . " " . $this->_assembleAttributes($radio) . " />",
 				'label' => "<label for='radio_{$name}_{$value}'>" . $this->_getLangValue($text) . "</label>"
 			));
 		}
@@ -183,7 +212,7 @@ class AssembleForm {
 
 		return array(
 			'label' => "<label for='checkbox_$name'>$label</label>",
-			'element' => "<input id='checkbox_$name' type='checkbox' name='$name' " . ($form_value ? " checked='checked'" : '') . " />"
+			'element' => "<input id='checkbox_$name' type='checkbox' name='$name' " . ($form_value ? " checked='checked'" : '') . " " . $this->_assembleAttributes($checkbox) . " />"
 		);
 	}
 
@@ -198,7 +227,7 @@ class AssembleForm {
 		$label = $this->_getLangValue($submit['label']);
 
 		return array(
-			'element' => "<button type='submit' name='$name'>$label</button>"
+			'element' => "<button type='submit' name='$name' " . $this->_assembleAttributes($submit) . ">$label</button>"
 		);
 	}
 
@@ -215,8 +244,44 @@ class AssembleForm {
 
 		return array(
 			'label' => $label,
-			'element' => "<input type='{$input['type']}' name='$name' value='$form_value' />"
+			'element' => "<input type='{$input['type']}' name='$name' id='$name' value='$form_value' " . $this->_assembleAttributes($input) . " />"
 		);
+	}
+
+	/**
+	 * Returns element's attributes as string of tag attributes
+	 * @param $formElement
+	 * @return string
+	 */
+	private function _assembleAttributes($formElement) {
+		if (isset($formElement['attributes']) && is_array($formElement['attributes'])) {
+			$output = [];
+			foreach ($formElement['attributes'] as $attribute => $value) {
+				array_push($output, "$attribute='$value'");
+			}
+			return implode(" ", $output);
+		}
+		return "";
+	}
+
+	/**
+	 * Returns element's value sent by form, otherwise empty string
+	 * @param string $name - form element name
+	 * @return string
+	 */
+	private function _getFormValue($name)
+	{
+		return isset($this->form_values[$name]) ? $this->form_values[$name] : '';
+	}
+
+	/**
+	 * Gets value in current language, if its not set, takes the first value
+	 * @param array $text - array('lang' => 'value', 'lang2' => 'value')
+	 * @return string
+	 */
+	private function _getLangValue($text)
+	{
+		return isset($text[$this->lang]) ? $text[$this->lang] : array_values($text)[0];
 	}
 
 }
