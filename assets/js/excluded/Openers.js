@@ -31,6 +31,7 @@ Openers = {
 	init: function(config) {
 		var self = this;
 
+		//reset content of openers in case of calling recover()
 		this.openers = [];
 		this._closeHandling();
 
@@ -71,7 +72,17 @@ Openers = {
 			this.openers.push(opener);
 
 			// $node.on('click', this._openerClick.bind(this));
-			$node.on('click.opener, touchend.opener', function(e){ self._openerClick(e, opener) });
+
+			var touchClick = false;
+			$node.on('touchstart.opener', function(e){ touchClick = true; });
+			$node.on('touchmove.opener', function(e){ touchClick = false; });
+			$node.on('touchend.opener', function(e){
+				if (touchClick) {
+					self._openerClick(e, opener)
+					touchClick = false;
+				}
+			});
+			$node.on('click.opener', function(e){ self._openerClick(e, opener) });
 
 			//close if opener not opened by default
 			if (!opener.open) {
@@ -263,7 +274,7 @@ Openers = {
 	 */
 	_destroyOpeners: function() {
 		this.openers.forEach(function(opener) {
-			opener.$node.off('click.opener, touchend.opener');
+			opener.$node.off('click.opener, touchstart.opener, touchmove.opener, touchend.opener');
 		});
 		$(document).off('click.openers, touchstart.openers, touchmove.openers, touchend.openers');
 	},
