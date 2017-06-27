@@ -274,9 +274,9 @@ Openers = {
 	 */
 	_destroyOpeners: function() {
 		this.openers.forEach(function(opener) {
-			opener.$node.off('click.opener, touchstart.opener, touchmove.opener, touchend.opener');
+			opener.$node.off('.opener');
 		});
-		$(document).off('click.openers, touchstart.openers, touchmove.openers, touchend.openers');
+		$(document).off('.openers');
 	},
 	/**
 	 * If there is more than one trigger for opener content, then when one is triggered, others are set to be changed the same way (opened, closed)
